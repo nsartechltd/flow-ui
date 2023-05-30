@@ -1,13 +1,11 @@
-import React from 'react';
-import Login from './Login';
+import './App.css'
 
-const App: React.FC = () => {
+export default function App() {
   return (
-    <div>
-      <h1>Cognito Authentication Demo</h1>
-      <Login />
-    </div>
-  );
-};
-
-export default App;
+    <>
+      <h1>Flow</h1>
+      <div className="card">
+      </div>
+    </>
+  )
+}
