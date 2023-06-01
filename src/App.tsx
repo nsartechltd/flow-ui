@@ -1,11 +1,12 @@
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+
+import { LoginPage } from '@pages/LoginPage';
 
 export default function App() {
   return (
-    <>
-      <h1>Flow</h1>
-      <div className="card">
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<h1>Flow</h1>} />
+      <Route path="/login" element={<LoginPage />} />
+    </Routes>
   )
 }
