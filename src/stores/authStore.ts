@@ -37,9 +37,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           });
 
           user.authenticateUser(authDetails, {
-            onSuccess: () => {
-              set({ isAuthenticated: true });
-            },
+            onSuccess: () => set({ isAuthenticated: true }),
             onFailure: (err) => set({ authError: err.message }),
             newPasswordRequired: () => set({ newPasswordRequired: true }),
           });

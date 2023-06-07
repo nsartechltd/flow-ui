@@ -23,7 +23,6 @@ export const LoginPage = () => {
   }, [isAuthenticated, newPasswordRequired, navigate])
 
   return (
-    <div className="">
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex flex-col grow h-14">
           <Controller
@@ -64,6 +63,5 @@ export const LoginPage = () => {
           {authError && <div className="text-red">{authError}</div>}
         </div>
       </form>
-    </div>
   );
 };
