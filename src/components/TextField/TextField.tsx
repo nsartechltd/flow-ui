@@ -16,7 +16,7 @@ export type TextFieldProps = {
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ id, label, name, placeholder, type, error, onChange, ...props }, ref) => {
     return (
-      <div>
+      <div className="flex flex-col">
         <label htmlFor={name}>
           {label}
         </label>
@@ -24,14 +24,14 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             ref={ref}
             id={id}
             type={type}
-            className="block w-full appearance-none text-base rounded-lg border px-3 py-3 bg-transparent focus:outline-none"
+            className="rounded-lg"
             name={name}
             required
             placeholder={placeholder}
             onChange={onChange}
             {...props}
           />
-          {error && error.type === 'required' && <div className="form-field-error">Field is required</div>}
+          {error && error.type === 'required' && <div className="form-field-error text-red">Field is required</div>}
       </div>
     );
   }

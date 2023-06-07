@@ -1,68 +1,69 @@
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { CognitoUser, AuthenticationDetails, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { useNavigate } from "react-router-dom";
 
 import { TextField } from "@components/TextField";
+import { useAuthStore } from "@stores/authStore";
+
+type FormValues = {
+  email: string;
+  password: string;
+};
 
 export const LoginPage = () => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<FormValues>();
   const navigate = useNavigate();
+  const { isAuthenticated, authenticate, newPasswordRequired, authError } = useAuthStore();
 
-  const onSubmit: SubmitHandler<{email: string, password: string}> = ({ email, password }) => {
-    const userPool = new CognitoUserPool({
-      UserPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID,
-      ClientId: import.meta.env.VITE_COGNITO_CLIENT_ID,
-    });
-    const user = new CognitoUser({ Username: email, Pool: userPool });
-    const authenticationDetails = new AuthenticationDetails({ Username: email, Password: password });
+  const onSubmit: SubmitHandler<FormValues> = ({ email, password }) => authenticate(email, password);
 
-    user.authenticateUser(authenticationDetails, {
-      onSuccess: (cb) => {
-        console.log(cb);
-        return navigate('/dashboard');
-      },
-      onFailure: (err) => console.log(err),
-      newPasswordRequired: (userAttributes, requiredAttributes) => {
-        console.log(userAttributes, requiredAttributes);
-      }
-    })
-  };
+  useEffect(() => {
+    if (isAuthenticated) navigate("/dashboard");
+    if (newPasswordRequired) navigate("/reset-password");
+  }, [isAuthenticated, newPasswordRequired, navigate])
 
   return (
-    <form className="" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Controller
-        name="email"
-        control={control}
-        rules={{ required: true }}
-        defaultValue={""}
-        render={({ field, fieldState }) =>
-          <TextField
-              id="email"
-              label="Email Address"
-              type="email"
-              placeholder="Enter your email address"
-              error={fieldState.error}
-              {...field}
-            />
-        }
-      />
-      <Controller
-        name="password"
-        control={control}
-        rules={{ required: true }}
-        defaultValue={""}
-        render={({ field, fieldState }) =>
-            <TextField
-              id="password"
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              error={fieldState.error}
-              {...field}
-            />
-        }
-      />
-      <input type="submit" value="Sign in" />
-    </form>
+    <div className="">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div className="flex flex-col grow h-14">
+          <Controller
+            name="email"
+            control={control}
+            rules={{ required: true }}
+            defaultValue={""}
+            render={({ field, fieldState }) => (
+              <TextField
+                id="email"
+                label="Email Address"
+                type="email"
+                placeholder="Enter your email address"
+                error={fieldState.error}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            rules={{ required: true }}
+            defaultValue={""}
+            render={({ field, fieldState }) => (
+              <TextField
+                id="password"
+                label="Password"
+                type="password"
+                placeholder="Enter your password"
+                error={fieldState.error}
+                {...field}
+              />
+            )}
+          />
+          <button type="submit" className="primary">
+            Sign in
+          </button>
+          {authError && <div className="text-red">{authError}</div>}
+        </div>
+      </form>
+    </div>
   );
 };
