@@ -5,7 +5,8 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
-      red: '#b91c1c'
+      red: '#b91c1c',
+      flowblue: '#0284c7'
     }
   },
   plugins: [

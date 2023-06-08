@@ -23,8 +23,9 @@ export const LoginPage = () => {
   }, [isAuthenticated, newPasswordRequired, navigate])
 
   return (
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="flex flex-col grow h-14">
+    <div className="flex flex-col justify-center w-full h-screen">
+      <form className="flex flex-col justify-center w-full h-screen" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div className="bg-white flex flex-col justify-center p-10 rounded-lg">
           <Controller
             name="email"
             control={control}
@@ -63,5 +64,6 @@ export const LoginPage = () => {
           {authError && <div className="text-red">{authError}</div>}
         </div>
       </form>
+    </div>
   );
 };
