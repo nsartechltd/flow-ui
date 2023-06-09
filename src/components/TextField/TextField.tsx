@@ -16,7 +16,7 @@ export type TextFieldProps = {
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ id, label, name, placeholder, type, error, onChange, ...props }, ref) => {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col p-2">
         <label htmlFor={name}>
           {label}
         </label>

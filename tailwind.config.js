@@ -6,7 +6,8 @@ module.exports = {
     extend: {},
     colors: {
       red: '#b91c1c',
-      flowblue: '#0284c7'
+      'flow-blue': '#0284c7',
+      white: '#ffffff',
     }
   },
   plugins: [

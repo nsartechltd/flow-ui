@@ -3,6 +3,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { TextField } from "@components/TextField";
+import { Button } from "@components/Button";
 import { useAuthStore } from "@stores/authStore";
 
 type FormValues = {
@@ -23,9 +24,9 @@ export const LoginPage = () => {
   }, [isAuthenticated, newPasswordRequired, navigate])
 
   return (
-    <div className="flex flex-col justify-center w-full h-screen">
+    <div className="flex flex-col justify-center w-full h-screen p-10 max-w-xl m-auto">
       <form className="flex flex-col justify-center w-full h-screen" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="bg-white flex flex-col justify-center p-10 rounded-lg">
+        <div className="bg-white flex flex-col justify-center p-8 rounded-lg">
           <Controller
             name="email"
             control={control}
@@ -58,9 +59,9 @@ export const LoginPage = () => {
               />
             )}
           />
-          <button type="submit" className="primary">
-            Sign in
-          </button>
+          <div className="flex flex-fol justify-center pt-5">
+            <Button text="Sign in" type="submit" className="bg-flow-blue shrink w-32 h-14 text-white" />
+          </div>
           {authError && <div className="text-red">{authError}</div>}
         </div>
       </form>

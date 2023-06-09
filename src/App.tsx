@@ -4,7 +4,7 @@ import { LoginPage } from '@pages/LoginPage';
 
 export default function App() {
   return (
-    <div className="container mx-auto w-full h-screen">
+    <div className="container mx-auto w-full h-screen bg-flow-blue">
       <Routes>
         <Route path="/" element={<h1>Flow</h1>} />
         <Route path="/login" element={<LoginPage />} />
