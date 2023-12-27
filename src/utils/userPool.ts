@@ -1,7 +1,7 @@
 import {
   CognitoUserPool,
   ICognitoUserPoolData,
-} from "amazon-cognito-identity-js";
+} from 'amazon-cognito-identity-js';
 
 let userPool: CognitoUserPool;
 

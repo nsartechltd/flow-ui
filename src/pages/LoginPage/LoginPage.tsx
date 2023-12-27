@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-import { TextField } from "@components/TextField";
-import { Button } from "@components/Button";
-import { useAuthStore } from "@stores/authStore";
+import { TextField } from '@components/TextField';
+import { Button } from '@components/Button';
+import { useAuthStore } from '@stores/authStore';
 
 type FormValues = {
   email: string;
@@ -14,24 +14,30 @@ type FormValues = {
 export const LoginPage = () => {
   const { control, handleSubmit } = useForm<FormValues>();
   const navigate = useNavigate();
-  const { isAuthenticated, authenticate, newPasswordRequired, authError } = useAuthStore();
+  const { isAuthenticated, authenticate, newPasswordRequired, authError } =
+    useAuthStore();
 
-  const onSubmit: SubmitHandler<FormValues> = ({ email, password }) => authenticate(email, password);
+  const onSubmit: SubmitHandler<FormValues> = ({ email, password }) =>
+    authenticate(email, password);
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/dashboard");
-    if (newPasswordRequired) navigate("/reset-password");
-  }, [isAuthenticated, newPasswordRequired, navigate])
+    if (isAuthenticated) navigate('/dashboard');
+    if (newPasswordRequired) navigate('/reset-password');
+  }, [isAuthenticated, newPasswordRequired, navigate]);
 
   return (
     <div className="flex flex-col justify-center w-full h-screen p-10 max-w-xl m-auto">
-      <form className="flex flex-col justify-center w-full h-screen" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form
+        className="flex flex-col justify-center w-full h-screen"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <div className="bg-white flex flex-col justify-center p-8 rounded-lg">
           <Controller
             name="email"
             control={control}
             rules={{ required: true }}
-            defaultValue={""}
+            defaultValue={''}
             render={({ field, fieldState }) => (
               <TextField
                 id="email"
@@ -47,7 +53,7 @@ export const LoginPage = () => {
             name="password"
             control={control}
             rules={{ required: true }}
-            defaultValue={""}
+            defaultValue={''}
             render={({ field, fieldState }) => (
               <TextField
                 id="password"
@@ -60,7 +66,11 @@ export const LoginPage = () => {
             )}
           />
           <div className="flex flex-fol justify-center pt-5">
-            <Button text="Sign in" type="submit" className="bg-flow-blue shrink w-32 h-14 text-white" />
+            <Button
+              text="Sign in"
+              type="submit"
+              className="bg-flow-blue shrink w-32 h-14 text-white"
+            />
           </div>
           {authError && <div className="text-red">{authError}</div>}
         </div>

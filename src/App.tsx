@@ -1,8 +1,9 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 
 import { LoginPage } from '@pages/LoginPage';
 import { HomePage } from '@pages/HomePage';
 import { ResetPasswordPage } from '@pages/ResetPasswordPage';
+import { CheckoutPage } from '@pages/CheckoutPage/CheckoutPage';
 
 export default function App() {
   return (
@@ -12,7 +13,8 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<h1>Dashboard</h1>} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
     </div>
-  )
+  );
 }

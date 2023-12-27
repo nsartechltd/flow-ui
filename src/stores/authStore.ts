@@ -1,14 +1,14 @@
-import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
-import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
+import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 
-import userPool from "@utils/userPool";
+import userPool from '@utils/userPool';
 
 interface AuthState {
   isAuthenticated: boolean;
   newPasswordRequired?: boolean;
   authError?: string;
-  cognitoUser?: CognitoUser
+  cognitoUser?: CognitoUser;
 }
 
 interface AuthActions {
@@ -41,10 +41,11 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           user.authenticateUser(authDetails, {
             onSuccess: () => set({ isAuthenticated: true }),
             onFailure: (err) => set({ authError: err.message }),
-            newPasswordRequired: () => set({
-              newPasswordRequired: true,
-              cognitoUser: user,
-            }),
+            newPasswordRequired: () =>
+              set({
+                newPasswordRequired: true,
+                cognitoUser: user,
+              }),
           });
         },
         resetPassword: (newPassword) => {
@@ -58,13 +59,15 @@ export const useAuthStore = create<AuthState & AuthActions>()(
             newPassword,
             {},
             {
-              onSuccess: () => set({ isAuthenticated: true, newPasswordRequired: false, }),
-              onFailure: (err) => console.error('completeNewPasswordChallenge onFailure', err),
-            },
+              onSuccess: () =>
+                set({ isAuthenticated: true, newPasswordRequired: false }),
+              onFailure: (err) =>
+                console.error('completeNewPasswordChallenge onFailure', err),
+            }
           );
         },
       }),
-      { name: "auth" }
+      { name: 'auth' }
     )
   )
 );
