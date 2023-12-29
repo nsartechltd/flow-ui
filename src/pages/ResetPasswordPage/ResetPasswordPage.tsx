@@ -26,7 +26,6 @@ export const ResetPasswordPage = () => {
     newPassword,
     confirmPassword,
   }) => {
-    console.log({ newPassword, confirmPassword });
     if (newPassword !== confirmPassword) {
       return setError('confirmPassword', {
         type: 'custom',
