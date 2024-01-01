@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useAuthStore } from "@stores/authStore";
-import { TextField } from "@components/TextField";
-import { Button } from "@components/Button";
+import { useAuthStore } from '@stores/authStore';
+import { TextField } from '@components/TextField';
+import { Button } from '@components/Button';
 
 type FormValues = {
   newPassword: string;
@@ -16,32 +16,39 @@ export const ResetPasswordPage = () => {
   const { resetPassword, isAuthenticated, authError } = useAuthStore();
   const navigate = useNavigate();
 
-  
-
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard', { replace: true })
+      navigate('/dashboard', { replace: true });
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate]);
 
-  const onSubmit: SubmitHandler<FormValues> = ({ newPassword, confirmPassword }) => {
-    console.log({ newPassword, confirmPassword })
+  const onSubmit: SubmitHandler<FormValues> = ({
+    newPassword,
+    confirmPassword,
+  }) => {
     if (newPassword !== confirmPassword) {
-      return setError('confirmPassword', { type: 'custom', message: 'Passwords do not match' })
+      return setError('confirmPassword', {
+        type: 'custom',
+        message: 'Passwords do not match',
+      });
     }
 
     resetPassword(newPassword);
-  }
+  };
 
   return (
     <div className="flex flex-col justify-center w-full h-screen p-10 max-w-xl m-auto">
-      <form className="flex flex-col justify-center w-full h-screen" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form
+        className="flex flex-col justify-center w-full h-screen"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <div className="bg-white flex flex-col justify-center p-8 rounded-lg">
           <Controller
             name="newPassword"
             control={control}
             rules={{ required: true }}
-            defaultValue={""}
+            defaultValue={''}
             render={({ field, fieldState }) => (
               <TextField
                 id="newPassword"
@@ -57,7 +64,7 @@ export const ResetPasswordPage = () => {
             name="confirmPassword"
             control={control}
             rules={{ required: true }}
-            defaultValue={""}
+            defaultValue={''}
             render={({ field, fieldState }) => (
               <TextField
                 id="confirmPassword"
@@ -70,7 +77,11 @@ export const ResetPasswordPage = () => {
             )}
           />
           <div className="flex flex-fol justify-center pt-5">
-            <Button text="Sign in" type="submit" className="bg-flow-blue shrink w-32 h-14 text-white" />
+            <Button
+              text="Sign in"
+              type="submit"
+              className="bg-flow-blue shrink w-32 h-14 text-white"
+            />
           </div>
           {authError && <div className="text-red">{authError}</div>}
         </div>

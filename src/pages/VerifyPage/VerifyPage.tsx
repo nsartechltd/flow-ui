@@ -1,29 +1,41 @@
 import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useAuthStore } from '@stores/authStore';
 import { TextField } from '@components/TextField';
 import { Button } from '@components/Button';
-import { useAuthStore } from '@stores/authStore';
 
 type FormValues = {
-  email: string;
-  password: string;
+  code: string;
 };
 
-export const LoginPage = () => {
+export const VerifyPage = () => {
   const { control, handleSubmit } = useForm<FormValues>();
+  const {
+    verifyAccount,
+    authError,
+    isConfirmed,
+    isAuthenticated,
+    cognitoUser,
+  } = useAuthStore();
   const navigate = useNavigate();
-  const { isAuthenticated, authenticate, newPasswordRequired, authError } =
-    useAuthStore();
-
-  const onSubmit: SubmitHandler<FormValues> = ({ email, password }) =>
-    authenticate(email, password);
+  const location = useLocation();
 
   useEffect(() => {
-    if (isAuthenticated) navigate('/dashboard');
-    if (newPasswordRequired) navigate('/reset-password');
-  }, [isAuthenticated, newPasswordRequired, navigate]);
+    if (isAuthenticated && isConfirmed) {
+      navigate('/checkout', {
+        replace: true,
+        state: {
+          priceId: location.state.priceId,
+          email: cognitoUser?.getUsername(),
+        },
+      });
+      return;
+    }
+  }, [isAuthenticated, isConfirmed, navigate]);
+
+  const onSubmit: SubmitHandler<FormValues> = ({ code }) => verifyAccount(code);
 
   return (
     <div className="flex flex-col justify-center w-full h-screen p-10 max-w-xl m-auto">
@@ -34,32 +46,16 @@ export const LoginPage = () => {
       >
         <div className="bg-white flex flex-col justify-center p-8 rounded-lg">
           <Controller
-            name="email"
+            name="code"
             control={control}
             rules={{ required: true }}
             defaultValue={''}
             render={({ field, fieldState }) => (
               <TextField
-                id="email"
-                label="Email Address"
-                type="email"
-                placeholder="Enter your email address"
-                error={fieldState.error}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: true }}
-            defaultValue={''}
-            render={({ field, fieldState }) => (
-              <TextField
-                id="password"
-                label="Password"
-                type="password"
-                placeholder="Enter your password"
+                id="code"
+                label="Verification Code"
+                type="text"
+                placeholder="123456"
                 error={fieldState.error}
                 {...field}
               />
@@ -67,7 +63,7 @@ export const LoginPage = () => {
           />
           <div className="flex flex-fol justify-center pt-5">
             <Button
-              text="Sign in"
+              text="Verify"
               type="submit"
               className="bg-flow-blue shrink w-32 h-14 text-white"
             />
