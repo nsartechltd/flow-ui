@@ -34,7 +34,7 @@ export const SignUpPage = () => {
     if (isAuthenticated) {
       navigate('/dashboard', { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, cognitoUser, isConfirmed, priceId]);
 
   const onSubmit: SubmitHandler<FormValues> = (userDetails) => {
     if (userDetails.password !== userDetails.confirmPassword) {

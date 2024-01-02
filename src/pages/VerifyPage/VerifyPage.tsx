@@ -33,7 +33,13 @@ export const VerifyPage = () => {
       });
       return;
     }
-  }, [isAuthenticated, isConfirmed, navigate]);
+  }, [
+    isAuthenticated,
+    isConfirmed,
+    navigate,
+    location.state.priceId,
+    cognitoUser,
+  ]);
 
   const onSubmit: SubmitHandler<FormValues> = ({ code }) => verifyAccount(code);
 
