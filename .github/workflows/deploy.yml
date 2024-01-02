@@ -35,7 +35,7 @@ jobs:
           output-credentials: true
 
       - name: Upload to Amazon S3
-        use: Noelware/s3-action@2 # this can be `master` or a tagged release
+        uses: Noelware/s3-action@2
         with:
             directories: dist
             access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
