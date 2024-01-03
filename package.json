@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "pretty:write": "npx prettier --write './src/**/*.(ts|tsx)'"
+    "pretty:write": "npx prettier --write './src/**/*.(ts|tsx)'",
+    "pretty:check": "npx prettier --check './src/**/*.(ts|tsx)'"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^2.4.0",
