@@ -29,7 +29,7 @@ export const CheckoutPage = () => {
   };
   useEffect(() => {
     createSession();
-  }, []);
+  });
 
   return <EmbeddedCheckoutComponent clientSecret={clientSecret} />;
 };

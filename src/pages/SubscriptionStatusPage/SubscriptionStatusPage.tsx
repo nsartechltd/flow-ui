@@ -14,7 +14,7 @@ export const SubscriptionStatusPage = () => {
   const [session, setSession] = useState<GetSessionData>();
 
   const sessionId = searchParams.get('session_id');
-  const priceId = searchParams.get('price_id')
+  const priceId = searchParams.get('price_id');
 
   const getSession = async () => {
     const session = await axios({
@@ -27,7 +27,7 @@ export const SubscriptionStatusPage = () => {
 
   useEffect(() => {
     getSession();
-  }, []);
+  });
 
   if (session?.status === 'open') {
     navigate('/checkout', {
@@ -39,7 +39,5 @@ export const SubscriptionStatusPage = () => {
 
   navigate('/dashboard', { replace: true });
 
-  return (
-    <h1>Success</h1>
-  );
+  return <h1>Success</h1>;
 };
