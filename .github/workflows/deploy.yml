@@ -36,10 +36,11 @@ jobs:
           role-skip-session-tagging: true
 
       - name: Upload to Amazon S3
-        uses: shallwefootball/s3-upload-action@master
+        uses: a-sync/s3-uploader@master
         with:
-            aws_key_id: ${{ steps.creds.outputs.aws-access-key-id }}
-            aws_secret_access_key: ${{ steps.creds.outputs.aws-secret-access-key }}
-            destination_dir: ''
-            aws_bucket: ${{ secrets.AWS_S3_BUCKET_NAME }}
-            source_dir: dist
+          args: --recursive
+        env:
+          AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.aws-secret-access-key }}
+          FILE: ./dist
+          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_NAME }}
