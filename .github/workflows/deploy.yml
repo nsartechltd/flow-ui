@@ -31,7 +31,7 @@ jobs:
           envkey_VITE_COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
           envkey_VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
           envkey_VITE_STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          envkey_VITE_FLOW_API_URL: flow-api-dev.nsar-tech.co.uk
+          envkey_VITE_FLOW_API_URL: https://flow-api-dev.nsar-tech.co.uk
           file_name: .env
           fail_on_empty: true
 
