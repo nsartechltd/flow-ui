@@ -7,13 +7,12 @@ module.exports = {
     colors: {
       red: '#b91c1c',
       'flow-blue': '#0284c7',
+      'flow-grey': '#6d6d6e',
       white: '#ffffff',
     },
     fontFamily: {
-      sans: ['sans-serif']
-    }
+      sans: ['sans-serif'],
+    },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ]
-}
+  plugins: [require('@tailwindcss/forms')],
+};
