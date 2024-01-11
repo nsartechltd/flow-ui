@@ -4,6 +4,7 @@ import {
   CognitoUser,
   AuthenticationDetails,
   CognitoUserAttribute,
+  CognitoUserSession,
 } from 'amazon-cognito-identity-js';
 
 import userPool from '@utils/userPool';
@@ -31,6 +32,28 @@ interface AuthActions {
   resetPassword: (newPassword: string) => void;
   signUp: (user: SignUpUser) => void;
   verifyAccount: (code: string) => void;
+  setAuthState: (authState: {
+    idToken?: string;
+    accessToken?: string;
+    refreshToken?: string;
+    email?: string;
+    isAuthenticated?: boolean;
+    authError?: string;
+    firstName?: string;
+    lastName?: string;
+    username?: string;
+    forgotPasswordSuccess?: boolean;
+  }) => void;
+  getAuthState: (userSession: CognitoUserSession) => {
+    username: string;
+    idToken: string;
+    accessToken: string;
+    refreshToken: string;
+    email: string;
+    isAdmin: boolean;
+    firstName: string;
+    lastName: string;
+  };
 }
 
 export const useAuthStore = create<AuthState & AuthActions>()(
@@ -56,7 +79,29 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           });
 
           user.authenticateUser(authDetails, {
-            onSuccess: () => set({ isAuthenticated: true }),
+            onSuccess: (userSession) => {
+              console.log('onSuccess', userSession);
+              const {
+                username,
+                idToken,
+                accessToken,
+                refreshToken,
+                email,
+                firstName,
+                lastName,
+              } = get().getAuthState(userSession);
+
+              get().setAuthState({
+                username,
+                idToken,
+                accessToken,
+                refreshToken,
+                email,
+                isAuthenticated: true,
+                firstName,
+                lastName,
+              });
+            },
             onFailure: (err) => set({ authError: err.message }),
             newPasswordRequired: () =>
               set({
@@ -96,6 +141,31 @@ export const useAuthStore = create<AuthState & AuthActions>()(
             }
           );
         },
+        getAuthState: (userSession: CognitoUserSession) => {
+          const idToken = userSession.getIdToken().getJwtToken();
+          const accessToken = userSession.getAccessToken().getJwtToken();
+          const refreshToken = userSession.getRefreshToken().getToken();
+          const idTokenPayload = userSession.getIdToken().payload;
+          const {
+            email,
+            ['custom:isAdmin']: isAdmin,
+            given_name: firstName,
+            family_name: lastName,
+            sub: username,
+          } = idTokenPayload;
+
+          return {
+            username,
+            idToken,
+            accessToken,
+            refreshToken,
+            email: email as string,
+            isAdmin: Boolean(isAdmin),
+            firstName,
+            lastName,
+          };
+        },
+        setAuthState: (authState) => set(authState),
         signUp: (user) => {
           const userAttributes = [
             new CognitoUserAttribute({

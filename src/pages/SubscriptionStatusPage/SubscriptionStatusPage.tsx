@@ -1,43 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import FadeLoader from 'react-spinners/FadeLoader';
 
-type GetSessionData = {
-  customerEmail?: string;
-  status: string;
-  paymentStatus: string;
-};
+import { useStripeStore } from '@stores/stripeStore';
 
 export const SubscriptionStatusPage = () => {
   const navigate = useNavigate();
+  const { getSession, status, customerEmail } = useStripeStore();
   const [searchParams] = useSearchParams();
-  const [session, setSession] = useState<GetSessionData>();
 
   const sessionId = searchParams.get('session_id');
   const priceId = searchParams.get('price_id');
 
-  const getSession = async () => {
-    const session = await axios({
-      method: 'GET',
-      url: `${import.meta.env.VITE_FLOW_API_URL}/stripe/session/${sessionId}`,
-    });
-
-    setSession(session.data);
-  };
-
   useEffect(() => {
-    getSession();
-  });
+    getSession(sessionId ?? '');
 
-  if (session?.status === 'open') {
-    navigate('/checkout', {
-      replace: true,
-      state: { email: session.customerEmail, priceId },
-    });
-    return null;
-  }
+    if (status === 'open') {
+      navigate('/checkout', {
+        replace: true,
+        state: { email: customerEmail, priceId },
+      });
+    } else {
+      const timer = setTimeout(() => {
+        navigate('/dashboard', { replace: true });
+      }, 5000);
 
-  navigate('/dashboard', { replace: true });
+      // Cleanup the timer on component unmount
+      return () => clearTimeout(timer);
+    }
+  }, [getSession, sessionId, customerEmail, priceId, navigate, status]);
 
-  return <h1>Success</h1>;
+  return (
+    <div className="flex flex-col items-center justify-around h-screen">
+      <h1 className="text-white text-2xl">Payment Successful!</h1>
+      <p className="text-white text-1xl">
+        Your payment was successful. You will be redirected shortly.
+      </p>
+      <FadeLoader color="#ffffff" />
+    </div>
+  );
 };
