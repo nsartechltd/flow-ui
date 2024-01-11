@@ -26,7 +26,7 @@ const axiosInstance = axios.create({
 export const useStripeStore = create<StripeState & StripeActions>()(
   devtools(
     persist(
-      (set, get) => ({
+      (set) => ({
         status: '',
         paymentStatus: '',
         customerEmail: '',
