@@ -5,6 +5,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthStore } from '@stores/authStore';
 import { TextField } from '@components/TextField';
 import { Button } from '@components/Button';
+import { Header } from '@components/Header';
 
 type FormValues = {
   newPassword: string;
@@ -37,9 +38,10 @@ export const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center w-full h-screen p-10 max-w-xl m-auto">
+    <div className="md:flex flex-col justify-center max-w-xl p-10 m-auto">
+      <Header padding="py-20" />
       <form
-        className="flex flex-col justify-center w-full h-screen"
+        className="flex flex-col justify-center"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >

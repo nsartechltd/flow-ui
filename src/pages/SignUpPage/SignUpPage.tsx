@@ -49,16 +49,16 @@ export const SignUpPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center p-10 m-auto">
-      <Header padding="pb-20" />
+    <div className="md:flex flex-col justify-center p-10 m-auto">
+      <Header padding="md:pb-20" />
       <form
-        className="flex flex-col justify-center"
+        className="md:flex flex-col justify-center"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
         <div className="bg-white flex flex-col justify-around p-8 rounded-lg">
-          <div className="flex flex-row justify-around">
-            <div className="flex flex-col justify-around w-96">
+          <div className="md:flex flex-row justify-around">
+            <div className="md:flex flex-col justify-around md:w-96">
               <Controller
                 name="firstName"
                 control={control}
@@ -124,7 +124,7 @@ export const SignUpPage = () => {
                 )}
               />
             </div>
-            <div className="flex flex-col justify-around w-96">
+            <div className="md:flex flex-col justify-around md:w-96">
               <Controller
                 name="birthdate"
                 control={control}

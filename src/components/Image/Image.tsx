@@ -10,7 +10,7 @@ export const BackgroundImage = ({
 }: PropsWithChildren<BackgroundImageProps>): JSX.Element => {
   return (
     <div
-      className="bg-cover bg-center bg-no-repeat fixed top-0 left-0 h-screen w-screen"
+      className="bg-cover bg-center bg-no-repeat top-0 left-0 h-screen w-screen"
       style={{ backgroundImage: `url(${url})` }}
     >
       {children}
