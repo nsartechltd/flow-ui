@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@stores/authStore';
 import { TextField } from '@components/TextField';
 import { Button } from '@components/Button';
+import { Header } from '@components/Header';
 
 type FormValues = {
   code: string;
@@ -44,9 +45,10 @@ export const VerifyPage = () => {
   const onSubmit: SubmitHandler<FormValues> = ({ code }) => verifyAccount(code);
 
   return (
-    <div className="flex flex-col justify-center w-full h-screen p-10 max-w-xl m-auto">
+    <div className="md:flex flex-col justify-center max-w-xl p-10 m-auto">
+      <Header padding="py-20" />
       <form
-        className="flex flex-col justify-center w-full h-screen"
+        className="flex flex-col justify-center"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
