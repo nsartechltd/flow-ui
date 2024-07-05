@@ -1,6 +1,7 @@
 name: Flow UI Deployment
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
