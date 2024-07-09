@@ -8,12 +8,15 @@ import {
 } from 'amazon-cognito-identity-js';
 
 import userPool from '@utils/userPool';
+import { CreateUserData } from '@data/types';
 
 interface AuthState {
   isAuthenticated: boolean;
   newPasswordRequired?: boolean;
+  cognitoId?: string;
   authError?: string;
   cognitoUser?: CognitoUser;
+  userDetails?: CreateUserData;
   isConfirmed: boolean;
 }
 
@@ -54,6 +57,7 @@ interface AuthActions {
     firstName: string;
     lastName: string;
   };
+  setUserDetails: (userDetails: CreateUserData) => void;
 }
 
 export const useAuthStore = create<AuthState & AuthActions>()(
@@ -64,6 +68,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
         newPasswordRequired: false,
         authError: undefined,
         isConfirmed: false,
+        userDetails: undefined,
         getUser: (email) => {
           return new CognitoUser({
             Username: email,
@@ -166,6 +171,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           };
         },
         setAuthState: (authState) => set(authState),
+        setUserDetails: (userDetails) => set({ userDetails }),
         signUp: (user) => {
           const userAttributes = [
             new CognitoUserAttribute({
@@ -205,6 +211,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
                 isAuthenticated: true,
                 cognitoUser: result?.user,
                 isConfirmed: false,
+                cognitoId: result?.userSub,
               });
               return result?.user;
             }

@@ -3,6 +3,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '@stores/authStore';
+import { useCreateUserMutation } from '@data/hooks';
 import { TextField } from '@components/TextField';
 import { Button } from '@components/Button';
 import { Header } from '@components/Header';
@@ -19,11 +20,25 @@ export const VerifyPage = () => {
     isConfirmed,
     isAuthenticated,
     cognitoUser,
+    userDetails,
+    cognitoId,
   } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const { mutate } = useCreateUserMutation();
 
   useEffect(() => {
+    if (userDetails && cognitoId) {
+      mutate({
+        cognitoId,
+        firstName: userDetails.firstName,
+        lastName: userDetails.lastName,
+        email: userDetails.email,
+        birthdate: userDetails.birthdate,
+        organisation: userDetails.organisation,
+      });
+    }
+
     if (isAuthenticated && isConfirmed) {
       navigate('/checkout', {
         replace: true,
@@ -40,6 +55,8 @@ export const VerifyPage = () => {
     navigate,
     location.state.priceId,
     cognitoUser,
+    cognitoId,
+    userDetails,
   ]);
 
   const onSubmit: SubmitHandler<FormValues> = ({ code }) => verifyAccount(code);

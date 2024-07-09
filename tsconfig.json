@@ -25,6 +25,7 @@
       "@pages/*": ["pages/*"],
       "@stores/*": ["stores/*"],
       "@utils/*": ["utils/*"],
+      "@data/*": ["data/*"],
     }
   },
   "include": ["src"],

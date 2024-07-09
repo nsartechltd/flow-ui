@@ -19,8 +19,14 @@ type FormValues = {
 
 export const SignUpPage = () => {
   const { control, handleSubmit, setError } = useForm<FormValues>();
-  const { signUp, isAuthenticated, authError, cognitoUser, isConfirmed } =
-    useAuthStore();
+  const {
+    signUp,
+    isAuthenticated,
+    authError,
+    cognitoUser,
+    isConfirmed,
+    setUserDetails,
+  } = useAuthStore();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -46,6 +52,7 @@ export const SignUpPage = () => {
     }
 
     signUp(userDetails);
+    setUserDetails(userDetails);
   };
 
   return (

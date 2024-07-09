@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -17,7 +17,7 @@ export const CheckoutPage = () => {
   const [clientSecret, setClientSecret] = useState('');
   const location = useLocation();
 
-  const createSession = async () => {
+  const createSession = useCallback(async () => {
     const session = await axios({
       method: 'POST',
       url: `${import.meta.env.VITE_FLOW_API_URL}/stripe/session`,
@@ -26,10 +26,11 @@ export const CheckoutPage = () => {
     });
 
     setClientSecret(session.data.client_secret);
-  };
+  }, [location.state.priceId, location.state.email]);
+
   useEffect(() => {
     createSession();
-  });
+  }, [createSession]);
 
   return <EmbeddedCheckoutComponent clientSecret={clientSecret} />;
 };
