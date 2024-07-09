@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useContactStore } from '@stores/contactStore';
 import { TextField } from '@components/TextField';
 import { Button } from '@components/Button';
 import { Header } from '@components/Header';
@@ -22,9 +20,10 @@ type ContactFormValues = {
 
 export const ContactPage = () => {
   const { control, handleSubmit, setError } = useForm<ContactFormValues>();
-  const {} = useContactStore();
 
-  const onSubmit: SubmitHandler<ContactFormValues> = (contactDetails) => {};
+  const onSubmit: SubmitHandler<ContactFormValues> = (contactDetails) => {
+    console.log(contactDetails);
+  };
 
   return (
     <div className="md:flex flex-col justify-center p-10 m-auto">
