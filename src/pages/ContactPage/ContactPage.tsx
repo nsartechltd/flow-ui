@@ -19,7 +19,7 @@ type ContactFormValues = {
 };
 
 export const ContactPage = () => {
-  const { control, handleSubmit, setError } = useForm<ContactFormValues>();
+  const { control, handleSubmit } = useForm<ContactFormValues>();
 
   const onSubmit: SubmitHandler<ContactFormValues> = (contactDetails) => {
     console.log(contactDetails);
